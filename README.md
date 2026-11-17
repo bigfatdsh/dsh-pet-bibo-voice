@@ -40,10 +40,18 @@ dsh-pet 公开了两个对接面，本插件只用这两个：
 ## 安装
 
 ```bash
+# 从 GitHub 拿源码
+git clone https://github.com/bigfatdsh/dsh-pet-bibo-voice.git
+dsh plugin --profile desktop add link:"$PWD/dsh-pet-bibo-voice"
+```
+
+本机已在用的路径是：
+
+```bash
 dsh plugin --profile desktop add link:/Users/yangletian/Documents/deepseek-harness/default-workspace/adapted/dsh-pet-bibo-voice
 ```
 
-或在 DSH 插件管理里安装本地目录。安装后刷新页面，打开 **设置 → 桌宠声音** 可以看到状态；第一次会自动接管（如果桌宠原本没有开语音），并让桌宠说一句「哔哔啵啵，听得到吗？」作为安装自检——听到这一声就说明整条链路通了。
+也可以在 DSH 插件管理里安装本地目录。仓库：<https://github.com/bigfatdsh/dsh-pet-bibo-voice>。安装后刷新页面，打开 **设置 → 桌宠声音** 可以看到状态；第一次会自动接管（如果桌宠原本没有开语音），并让桌宠说一句「哔哔啵啵，听得到吗？」作为安装自检——听到这一声就说明整条链路通了。
 
 > **卸载前**请先在设置页点「恢复原设置」，否则 dsh-pet 的 `voiceName` 会停留在 `bibo/fish`，卸载后它会找不到这个音色。
 
