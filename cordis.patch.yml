@@ -1,0 +1,16 @@
+# ============================================================================
+# dsh-pet-bibo-voice 的 bundle patch —— 把「哔哔啵啵」挂进 DSH 配置树
+# ============================================================================
+#
+# 与 dsh-pet 自己的 patch 同一套规则：
+#   - id 必须全局唯一，且与包名一致（商城/配置都按它找条目）；
+#   - name 解析到包入口 lib/index.js（宿主半侧）；
+#   - package.json 里的 dsh.client 让 DSH 同时把本包扫描成浏览器插件，
+#     页面会加载 /plugins/dsh-pet-bibo-voice/client.js。
+#
+# 本插件不要求排在 dsh-pet 之后：宿主侧会定时探测 petApi7340，
+# 晚到的服务也能被接上；客户端侧的对账同样是轮询的。
+
+- insert:
+    - id: dsh-pet-bibo-voice
+      name: 'dsh-pet-bibo-voice'

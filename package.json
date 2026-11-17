@@ -1,0 +1,52 @@
+{
+  "name": "dsh-pet-bibo-voice",
+  "version": "0.1.0",
+  "description": "让 dsh-pet 开口就是「哔哔啵啵」：把桌宠的对话、碎碎念和带文字的表情接成本地合成的 bibo 声。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "dsh-pet",
+    "pet",
+    "voice",
+    "bibibobo",
+    "bibo"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/bigfatdsh/dsh-pet-bibo-voice#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bigfatdsh/dsh-pet-bibo-voice.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bigfatdsh/dsh-pet-bibo-voice/issues"
+  }
+}
