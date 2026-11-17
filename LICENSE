@@ -1,9 +1,6 @@
 MIT License
 
 Copyright (c) 2026 dsh-pet-bibo-voice contributors
-
-The bibo synthesis algorithm in lib/bibo.js is ported from
-https://github.com/hakihakii/bibibobo
 Copyright (c) 2026 hakihakii (Lumoswitch)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
