@@ -6,8 +6,14 @@
  *   4. 没有 dsh-pet 时不抛错（降级）。
  */
 import assert from 'node:assert/strict';
+import { mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { test } from 'node:test';
-import { apply, inject, name } from '../lib/index.js';
+
+// 测试不要写用户的真实日志目录：插件日志落到临时 DSH_HOME 里。
+process.env.DSH_HOME = mkdtempSync(join(tmpdir(), 'dsh-pet-bibo-voice-test-'));
+import { apply, inject, name, shouldSilenceForSleep, sleepSilenceWav } from '../lib/index.js';
 
 function fakeCtx(options = {}) {
   const routes = [];
@@ -141,6 +147,34 @@ test('注册 bibo provider，并暴露 /status 与 /preview', async () => {
   fake.dispose();
   assert.equal(fake.provider, null, '卸载后 provider 应被摘除');
   assert.equal(fake.routes.length, 0, '卸载后路由应被摘除');
+});
+
+test('合盖静音 WAV 是合法的 0.05 秒静音', () => {
+  const wav = sleepSilenceWav();
+  assert.equal(String.fromCharCode(...wav.slice(0, 4)), 'RIFF');
+  assert.equal(wav.length, 44 + 2205 * 2);
+  const view = new DataView(wav.buffer, wav.byteOffset, wav.byteLength);
+  assert.equal(view.getUint32(24, true), 44100);
+  for (let i = 44; i < wav.length; i++) assert.equal(wav[i], 0, '必须是静音');
+});
+
+test('shouldSilenceForSleep 返回布尔（本机开着盖应为 false）', async () => {
+  assert.equal(typeof (await shouldSilenceForSleep()), 'boolean');
+});
+
+test('强制睡眠开关能让 provider 返回静音', async () => {
+  const fake = fakeCtx();
+  apply(fake.ctx);
+  await new Promise((resolve) => setTimeout(resolve, 10));
+  process.env.DSH_PET_BIBO_FORCE_SLEEP = '1';
+  try {
+    const wav = await fake.provider.synthesize({ text: '这句不该响', voice: 'fish', rate: 0 });
+    assert.equal(wav.length, 44 + 2205 * 2);
+    for (let i = 44; i < wav.length; i++) assert.equal(wav[i], 0);
+  } finally {
+    delete process.env.DSH_PET_BIBO_FORCE_SLEEP;
+    fake.dispose();
+  }
 });
 
 test('没有 dsh-pet 时只降级，不抛错', async () => {

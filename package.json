@@ -1,6 +1,6 @@
 {
   "name": "dsh-pet-bibo-voice",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "让 dsh-pet 开口就是「哔哔啵啵」：把桌宠的对话、碎碎念和带文字的表情接成本地合成的 bibo 声。",
   "type": "module",
   "main": "lib/index.js",
